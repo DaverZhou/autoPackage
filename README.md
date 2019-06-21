@@ -4,8 +4,8 @@ iOS 使用脚本自动化打包主要是包含两种方式：
 - `PackageApplication`
 别的方式上大同小异，这边就简单介绍下。本文就以相同部分、不同部分来区分。因为个人觉得一般项目都是用git来管理、方便团队开发，所以源码的路径直接就是git仓库了。
 ### git仓库
-`Git仓库`不管是用GitHub、gitee、gitlab都是一样的，因为直接用的是用脚本为了方便请在打包机上配置好,如果需要请参考另一篇[Git配置SSH](https://www.jianshu.com/p/27a595cc8d2b)。
-脚本：
+`Git仓库`不管是用GitHub、gitee、gitlab都是一样的，因为用的是脚本为了方便请在打包机上配置好SSH,如果需要请参考另一篇[Git配置SSH](https://www.jianshu.com/p/27a595cc8d2b)。
+脚本clone远程仓库：
 ```
 # pull source  && clone git and pull source
 if [ -d $SOURCEPATH ]; then
