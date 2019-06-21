@@ -2,9 +2,9 @@
 iOS 使用脚本自动化打包主要是包含两种方式：
 - `exportArchive`
 - `PackageApplication`
-别的方式上大同小异，这边就简单介绍下。本文就以相同部分、不同部分来区分。因为个人觉得一般项目都是用git来管理、方便团队开发，所以源码的路径直接就是git仓库了。
+别的方式上大同小异，这边就简单介绍下。本文就以相同部分、不同部分来区分。因为个人觉得一般项目都是用git来管理、方便团队开发，所以源码的路径直接就是git仓库了。
 ### git仓库
-`Git仓库`不管是用GitHub、gitee、gitlab都是一样的，因为直接用的是用脚本为了方便请在打包机上配置好,如果需要请参考另一篇[Git配置SSH](https://www.jianshu.com/p/27a595cc8d2b)。
+`Git仓库`不管是用GitHub、gitee、gitlab都是一样的，因为直接用的是用脚本为了方便请在打包机上配置好,如果需要请参考另一篇[Git配置SSH](https://www.jianshu.com/p/27a595cc8d2b)。
 脚本：
 ```
 # pull source  && clone git and pull source
@@ -23,7 +23,7 @@ fi
 ```
 ### 打包
 #### 方式一：exportArchive
-使用这个方式打包，可以制作成测试包或者生产包，当然还需要附带上两个文件`DEVELOPExportOptionsPlist.plist`、`AppStoreExportOptionsPlist.plist`，这两个文件在相应对应的ipa包中是可以找到的。这两个文件不需要更改固定的就行了，需要的话可以去[github仓库](https://github.com/DaverZhou/autoPackage/tree/master)下载。
+使用这个方式打包，可以制作成测试包或者生产包，当然还需要附带上两个文件`DEVELOPExportOptionsPlist.plist`、`AppStoreExportOptionsPlist.plist`，这两个文件在相应对应的ipa包中是可以找到的。这两个文件不需要更改固定的就行了，需要的话可以去[github仓库](https://github.com/DaverZhou/autoPackage/tree/master)下载。
 ##### 测试包
 ```
 # 构建archive
@@ -32,7 +32,7 @@ xcodebuild -workspace $workspace_Name.xcworkspace -scheme $target_Name -configur
 xcodebuild  -exportArchive -archivePath 存放xcarchive文件的路径/$target_Name-develop.xcarchive -exportOptionsPlist ${DEVELOPExportOptionsPlist} -exportPath 导出ipa包的文件路径/develop-$ipa_Time
 ```
 `$workspace_Name`：这边为工程名，脚本内直接定义了变量方便更改。
-`$target_Name`：target的名字，可以直接打开自己的工程查看，也是个变量名
+`$target_Name`：target的名字，可以直接打开自己的工程查看，也是个变量名
 `${DEVELOPExportOptionsPlist}`：用于区别测试包的文件，也是个变量
 `$ipa_Time`：日期变量，用于区别不同时间段打的包
 这边因为打的是测试包，后面在打包完成后可以将包上传到fir、或者蒲公英上，下面就以fir为例：
@@ -41,14 +41,14 @@ fir login fir的登录token
 fir publish 导出ipa包的文件路径/develop-$ipa_Time/LoveChat.ipa
 ```
 ##### 生产包
-跟打测试包大同小异，区别在于`DEVELOPExportOptionsPlist`这个文件，具体如下：
+跟打测试包大同小异，区别在于`DEVELOPExportOptionsPlist`这个文件，具体如下：
 ```
 #构建archive
 xcodebuild -workspace $workspace_Name.xcworkspace -scheme $target_Name -configuration $Configuration -archivePath 存放xcarchive文件的路径/$target_Name-dis.xcarchive clean archive build
 #生成ipa
 xcodebuild  -exportArchive -archivePath 存放xcarchive文件的路径/$target_Name-dis.xcarchive -exportOptionsPlist ${AppStoreExportOptionsPlist} -exportPath 导出ipa包的文件路径/distribution-$ipa_Time
 ```
-这种方式的打包就讲到这边，下面将另外一种打包的方式。
+这种方式的打包就讲到这边，下面将另外一种打包的方式。
 ##### 完整的脚本
 ``` sh
 #!/bin/sh
@@ -61,7 +61,7 @@ echo "======================================="
 # ipa time
 ipa_Time=`date "+%Y-%m-%d"`
 # project name
-target_Name="工程名"
+target_Name="工程名"
 
 # workspace name
 workspace_Name="工程名"
@@ -204,13 +204,13 @@ xcrun -sdk iphoneos PackageApplication -v ${BUILDPATH}/Build/Products/Release-ip
 fir login fir的token
 fir publish ${MAINPATH}/App名.ipa
 ```
-### 权限问题
+### 权限问题
 在执行脚本的时候可能会错误，提示权限不足，那就给脚本授权：
 ```
 chmod a+x 脚本.sh
 ```
 ### 调用
-脚本写好后就是调用了，打开终端cd到对应的文件夹路径
+脚本写好后就是调用了，打开终端cd到对应的文件夹路径
 ```
 $./脚本.sh
 ```
